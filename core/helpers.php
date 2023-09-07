@@ -1,6 +1,7 @@
 <?php
 
-function env(string $key, string $default = ''): string {
+function env(string $key, string $default = ''): string
+{
     $lines = file(BASE_PATH . '/.env');
 
     foreach ($lines as $idx => $line) {
