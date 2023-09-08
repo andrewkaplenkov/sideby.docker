@@ -5,12 +5,12 @@ namespace Lilo\Core\Database;
 class DB
 {
     private static ?self $instance = null;
-    private static ?\PDO $connection = null;
+    private \PDO $connection;
 
-    public function __construct(mixed $config)
+    private function __construct(array $config)
     {
         $dsn = "{$config['driver']}:" . http_build_query($config['dsn'], '', ';');
-        static::$connection = new \PDO(
+        $this->connection = new \PDO(
             $dsn,
             $config['user'],
             $config['password'],
@@ -18,7 +18,7 @@ class DB
         );
     }
 
-    public static function connect(mixed $config): static
+    public static function connect(array $config): static
     {
         if (static::$instance === null) {
             static::$instance = new static($config);
@@ -27,14 +27,14 @@ class DB
         return static::$instance;
     }
 
-    public static function pdo(): \PDO
+    public function pdo(): \PDO
     {
-        return static::$connection;
+        return $this->connection;
     }
 
-    public static function execute(string $query, array $vars = []): \PDOStatement
+    public function raw_query(string $query, array $vars = []): \PDOStatement
     {
-        $statement = static::$connection->prepare($query);
+        $statement = $this->connection->prepare($query);
         $statement->execute($vars);
         return $statement;
     }

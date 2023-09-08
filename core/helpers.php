@@ -22,3 +22,9 @@ function env(string $key, string $default = ''): string
 
     return getenv($key) ?: $default;
 }
+
+
+function faker(): \Faker\Generator
+{
+    return Faker\Factory::create();
+}
