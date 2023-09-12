@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Requests\UserRequest;
-use DB\Factories\UserFactory;
 use Lilo\Core\App;
 use Lilo\Core\Http\Request;
 use Lilo\Core\Http\Response;
@@ -16,7 +14,7 @@ class UserController
 
     public function __construct()
     {
-        $this->model = UserFactory::get_one();
+        $this->model = App::resolve(User::class);
         $this->request = App::resolve(Request::class);
     }
 
@@ -28,23 +26,20 @@ class UserController
 
     public function show(int $id): Response
     {
-        $user = $this->model->get_by_id($id);
+        $user = $this->model->get($id);
         return new Response(json_encode($user));
     }
 
     public function store(): Response
     {
         $attributes = $this->request->form_data();
-        $this->model->set_attributes($attributes);
-        $this->model->create();
-
-        return new Response('user created');
+        $this->model->create($attributes);
+        return new Response('User created');
     }
 
-    public function destroy(int $id): Response
+    public function delete(int $id): Response
     {
-        $this->model->destroy($id);
-        return new Response("User {$id} deleted");
+        $this->model->delete($id);
+        return new Response("user $id deleted");
     }
-
 }

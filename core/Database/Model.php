@@ -6,64 +6,105 @@ use Lilo\Core\App;
 
 abstract class Model
 {
-    protected DB $db;
-    protected string $table;
-    protected array $attributes = [];
+    public static ?DB $db = null;
+    public string $table;
+    public array $fillable;
 
-    private function __construct(string $table, $attributes = [])
+    public array $attributes;
+
+    public string $only = '*';
+    public string $where = '';
+
+
+    public function __construct(array $attributes = [])
     {
-        $this->db = App::resolve(DB::class);
-        $this->table = $table;
+        static::$db = App::resolve(DB::class);
         $this->attributes = $attributes;
     }
 
-
-    public static function create_model(string $table, array $attributes = []): static
+    //SELECTION
+    private function select_statement(): \PDOStatement
     {
-        return new static($table, $attributes);
-    }
-
-    public function set_attributes(array $attributes): void
-    {
-        $this->attributes = $attributes;
-    }
-
-    public function get_attributes(): array
-    {
-        return $this->attributes;
+        return static::$db
+            ->raw_query(
+                "SELECT {$this->only} FROM {$this->table} {$this->where}"
+                , $this->attributes);
     }
 
     public function all(): array
     {
-        return $this->db
-            ->raw_query("SELECT * FROM {$this->table}")->fetchAll();
+        return $this->select_statement()
+            ->fetchAll();
     }
 
-    public function get_by_id(int $id): array
+    public function get(int $id = null): array
     {
-        return $this->db
-            ->raw_query("SELECT * FROM {$this->table} WHERE id = :id", ['id' => $id])
+        if ($id) {
+            $this->attributes['id'] = $id;
+            $this->where = " WHERE id = :id";
+        }
+
+        return $this->select_statement()
             ->fetch();
     }
 
-    public function create(): void
+    public function only(array $only): self
     {
-        $keys = implode(',', array_keys($this->attributes));
-        $values = ":" . implode(',:', array_keys($this->attributes));
+        $this->only = implode(', ', $only);
+        return $this;
+    }
 
-        $this->db
+    public function where(string $key, string|int $value, bool $or = false): self
+    {
+        $this->attributes[$key] = $value;
+
+        if (!$this->where) {
+            $this->where = "WHERE $key = :$key";
+        } else {
+            $sign = $or ? "OR" : "AND";
+            $this->where .= " $sign $key = :$key";
+        }
+
+        return $this;
+    }
+
+
+    //INSERTION
+    private function insert_statement(): void
+    {
+
+        $keys = implode(', ', array_keys($this->attributes));
+        $keys_exec = ":" . implode(', :', array_keys($this->attributes));
+
+        static::$db
             ->raw_query(
-                "INSERT INTO {$this->table} ({$keys}) VALUES ({$values})",
-                $this->attributes()
-            );
+                "INSERT INTO $this->table ($keys) VALUES ($keys_exec)"
+                , $this->attributes);
     }
 
-    public function destroy(int $id): void
+    public function create(array $attributes): void
     {
-        $this->db
-            ->raw_query("DELETE FROM {$this->table} WHERE id = :id",
-                ['id' => $id]);
+        $this->attributes = $attributes;
+        $this->insert_statement();
     }
 
+
+    //DELETE
+    private function delete_statement(): void
+    {
+        static::$db
+            ->raw_query(
+                "DELETE FROM $this->table $this->where"
+                , $this->attributes);
+    }
+
+    public function delete(int $id = null): void
+    {
+        if ($id) {
+            $this->where = " WHERE id = :id";
+            $this->attributes['id'] = $id;
+        }
+        $this->delete_statement();
+    }
 
 }

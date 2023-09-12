@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\User;
-use DB\Factories\UserFactory;
 use Lilo\Core\App;
 use Lilo\Core\Http\Kernel;
 use Lilo\Core\Http\Request;
@@ -13,16 +11,11 @@ require_once BASE_PATH . '/vendor/autoload.php';
 
 App::create();
 
-$user = User::create_model('users', [
-    'name' => 'Lilo',
-    'password' => '1234'
-]);
-$user2 = UserFactory::get_one([
-    'name' => 'AYAZ',
-    'password' => '678'
-]);
-
-dd($user2, $user);
+$db = App::resolve(\Lilo\Core\Database\DB::class);
+$table = $db->create_table('users');
+$row = $table->add_row('id');
+$row->set_datatype('serial');
+dd($row);
 
 (new Kernel())
     ->handle(App::resolve(Request::class))

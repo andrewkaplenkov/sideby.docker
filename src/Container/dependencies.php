@@ -1,10 +1,8 @@
 <?php
 
 
-use DB\Factories\UserFactory;
-
 return [
-    UserFactory::class => function () {
-        return new UserFactory();
+    \App\Models\User::class => function () {
+        return new \App\Models\User();
     }
 ];

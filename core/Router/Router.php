@@ -25,8 +25,6 @@ class Router
             $request->get_path()
         );
 
-//        dd($request->get_path());
-
         [$status, [$class, $method], $vars] = $routeInfo;
 
         return (new $class())->$method(...$vars);
