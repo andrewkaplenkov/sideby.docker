@@ -27,11 +27,6 @@ class DB
         return static::$instance;
     }
 
-    public function pdo(): \PDO
-    {
-        return $this->connection;
-    }
-
     public function raw_query(string $query, array $vars = []): \PDOStatement
     {
         $statement = $this->connection->prepare($query);

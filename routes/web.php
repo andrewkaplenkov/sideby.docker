@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\UserController;
-use Lilo\Core\Route;
+use Lilo\Core\Router\Route;
 
 return [
     Route::get('/users', [UserController::class, 'index']),

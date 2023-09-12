@@ -1,6 +1,6 @@
 <?php
 
-namespace Lilo\Core;
+namespace Lilo\Core\Router;
 
 class Route
 {

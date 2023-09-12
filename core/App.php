@@ -6,11 +6,23 @@ use Lilo\Core\Container\Container;
 
 class App
 {
+    private static ?self $instance = null;
+    private static ?string $name = null;
     public static ?Container $container = null;
 
-    public function __construct()
+    private function __construct()
     {
+        static::$name = env('APP_NAME');
         static::$container = new Container();
+    }
+
+    public static function create(): static
+    {
+        if (static::$instance === null) {
+            static::$instance = new static();
+        }
+
+        return static::$instance;
     }
 
     public static function bind(string $key, mixed $resolver): void

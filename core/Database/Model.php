@@ -6,9 +6,9 @@ use Lilo\Core\App;
 
 abstract class Model
 {
-    public DB $db;
-    public ?string $table = null;
-    public array $attributes = [];
+    protected DB $db;
+    protected string $table;
+    protected array $attributes = [];
 
     private function __construct(string $table, $attributes = [])
     {
@@ -17,10 +17,6 @@ abstract class Model
         $this->attributes = $attributes;
     }
 
-    public function attributes(): array
-    {
-        return $this->attributes;
-    }
 
     public static function create_model(string $table, array $attributes = []): static
     {
@@ -32,9 +28,15 @@ abstract class Model
         $this->attributes = $attributes;
     }
 
+    public function get_attributes(): array
+    {
+        return $this->attributes;
+    }
+
     public function all(): array
     {
-        return $this->db->raw_query("SELECT * FROM {$this->table}")->fetchAll();
+        return $this->db
+            ->raw_query("SELECT * FROM {$this->table}")->fetchAll();
     }
 
     public function get_by_id(int $id): array

@@ -46,4 +46,5 @@ class UserController
         $this->model->destroy($id);
         return new Response("User {$id} deleted");
     }
+
 }

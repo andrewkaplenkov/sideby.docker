@@ -2,9 +2,9 @@
 
 namespace Lilo\Core\Database;
 
-class Seeder
+abstract class Seeder
 {
-    private mixed $factory;
+    protected mixed $factory;
 
     public function __construct(mixed $factory)
     {

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use DB\Factories\UserFactory;
 use Lilo\Core\App;
 use Lilo\Core\Http\Kernel;
@@ -10,10 +11,18 @@ include BASE_PATH . '/core/helpers.php';
 
 require_once BASE_PATH . '/vendor/autoload.php';
 
-(new App());
+App::create();
 
-$seeder = new \Lilo\Core\Database\Seeder(UserFactory::class, 'users');
-dd($seeder->seed(7));
+$user = User::create_model('users', [
+    'name' => 'Lilo',
+    'password' => '1234'
+]);
+$user2 = UserFactory::get_one([
+    'name' => 'AYAZ',
+    'password' => '678'
+]);
+
+dd($user2, $user);
 
 (new Kernel())
     ->handle(App::resolve(Request::class))
