@@ -33,20 +33,4 @@ class DB
         $statement->execute($vars);
         return $statement;
     }
-
-    public function pdo(): \PDO
-    {
-        return $this->connection;
-    }
-
-    public function drop_table(string $table): void
-    {
-        $this->connection->query("DROP TABLE $table");
-    }
-
-    public function create_table(string $name): Table
-    {
-        return new Table($name);
-    }
-
 }

@@ -3,7 +3,6 @@
 use Lilo\Core\Database\DB;
 use Lilo\Core\Http\Request;
 
-$app_dependencies = include BASE_PATH . '/src/Container/dependencies.php';
 
 return [
     DB::class => function () {
@@ -16,5 +15,5 @@ return [
 
 
     // Additional bindings
-    ...$app_dependencies
+    ...(include BASE_PATH . '/src/Container/dependencies.php')
 ];

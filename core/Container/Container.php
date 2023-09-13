@@ -11,7 +11,7 @@ class Container
         $this->bindings = include BASE_PATH . '/core/Container/dependencies.php';
     }
 
-    public function bind(string $key, mixed $resolver): void
+    public function bind(string $key, callable $resolver): void
     {
         $this->bindings[$key] = $resolver;
     }
@@ -20,4 +20,5 @@ class Container
     {
         return call_user_func($this->bindings[$key]);
     }
+
 }

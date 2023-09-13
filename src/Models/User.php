@@ -2,17 +2,12 @@
 
 namespace App\Models;
 
-use Lilo\Core\Database\Model;
+use Lilo\Core\Database\ORM\Model;
 
 class User extends Model
 {
-    public string $table = 'users';
-
-    public array $fillable = [
-        'name',
-        'email',
-        'password',
-        'is_admin',
+    protected string $table = 'users';
+    protected array $fillable = [
+        'name', 'email', 'password', 'is_admin'
     ];
-
 }

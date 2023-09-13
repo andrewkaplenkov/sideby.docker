@@ -7,12 +7,12 @@ use Lilo\Core\Container\Container;
 class App
 {
     private static ?self $instance = null;
-    private static ?string $name = null;
+    private string $name;
     public static ?Container $container = null;
 
     private function __construct()
     {
-        static::$name = env('APP_NAME');
+        $this->name = env('APP_NAME');
         static::$container = new Container();
     }
 
@@ -25,10 +25,11 @@ class App
         return static::$instance;
     }
 
-    public static function bind(string $key, mixed $resolver): void
+    public static function bind(string $key, callable $resolver): void
     {
         static::$container->bind($key, $resolver);
     }
+
 
     public static function resolve(string $key): mixed
     {
