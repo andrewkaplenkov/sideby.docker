@@ -11,9 +11,9 @@ include BASE_PATH . '/core/helpers.php';
 require_once BASE_PATH . '/vendor/autoload.php';
 
 App::create();
-$user = new \App\Models\User();
-$user->get(4);
 
+$factory = App::resolve(\DB\Factories\UserFactory::class);
+dd($factory->create_model);
 
 (new Kernel())
     ->handle(App::resolve(Request::class))

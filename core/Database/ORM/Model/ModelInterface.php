@@ -1,8 +1,7 @@
 <?php
 
-namespace Lilo\Core\Database\ORM;
+namespace Lilo\Core\Database\ORM\Model;
 
-use Lilo\Core\Exceptions\Database\NotFoundException;
 
 interface ModelInterface
 {

@@ -1,11 +1,9 @@
 <?php
 
-namespace Lilo\Core\Database\ORM;
+namespace Lilo\Core\Database\ORM\Model;
 
 use Lilo\Core\App;
 use Lilo\Core\Database\DB;
-use Lilo\Core\Exceptions\Database\InvalidParameterException;
-use Lilo\Core\Exceptions\Database\NotFoundException;
 
 abstract class Model implements ModelInterface
 {
@@ -84,7 +82,6 @@ abstract class Model implements ModelInterface
 
         return $this;
     }
-
 
     //INSERTION
     public function store(array $attributes): void

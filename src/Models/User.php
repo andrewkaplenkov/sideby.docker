@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Lilo\Core\Database\ORM\Model;
+use Lilo\Core\Database\ORM\Model\Model;
 
 class User extends Model
 {
