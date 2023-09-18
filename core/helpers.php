@@ -1,5 +1,8 @@
 <?php
 
+use Lilo\Core\Http\Response\Response;
+use Lilo\Core\View\View;
+
 function env(string $key, string $default = ''): string
 {
     $lines = file(BASE_PATH . '/.env');
@@ -23,8 +26,12 @@ function env(string $key, string $default = ''): string
     return getenv($key) ?: $default;
 }
 
-
-function faker(): \Faker\Generator
+function view(string $view_name, array $vars = []): Response
 {
-    return Faker\Factory::create();
+    return new Response(
+        (new View($view_name, $vars))->render()
+    );
 }
+
+
+
