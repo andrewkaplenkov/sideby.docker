@@ -33,5 +33,11 @@ function view(string $view_name, array $vars = []): Response
     );
 }
 
+function component(string $name, mixed $view = []): string
+{
+    extract(['view' => $view]);
+    include_once BASE_PATH . '/resources/components/' . $name . '.php';
+    return '';
+}
 
 

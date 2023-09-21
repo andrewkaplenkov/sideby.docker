@@ -3,7 +3,6 @@
 namespace Lilo\Core\Http\Router;
 
 use Closure;
-use Lilo\Core\Http\Response\Response;
 
 class Route
 {
@@ -40,7 +39,7 @@ class Route
         return $this;
     }
 
-    public function execute(): Response
+    public function execute(): mixed
     {
         if (is_array($this->handler)) {
             return $this->execute_controller_action($this->handler);
@@ -49,7 +48,7 @@ class Route
         return call_user_func($this->handler);
     }
 
-    private function execute_controller_action(array $handler): Response
+    private function execute_controller_action(array $handler): mixed
     {
         [$controller, $action] = $handler;
         $controller = new $controller();

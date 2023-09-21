@@ -4,6 +4,7 @@ namespace Lilo\Core\Http;
 
 use Lilo\Core\App;
 use Lilo\Core\Http\Request\Request;
+use Lilo\Core\Http\Response\Response;
 use Lilo\Core\Http\Router\Router;
 
 class Kernel
@@ -29,8 +30,10 @@ class Kernel
 
     public function handle(): void
     {
-        $this->router
-            ->handle($this->request)
-            ->send();
+        $res = $this->router->handle($this->request);
+
+        if ($res instanceof Response) {
+            $res->send();
+        }
     }
 }

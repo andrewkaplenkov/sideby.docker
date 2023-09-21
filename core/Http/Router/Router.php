@@ -4,7 +4,6 @@ namespace Lilo\Core\Http\Router;
 
 use Exception;
 use Lilo\Core\Http\Request\Request;
-use Lilo\Core\Http\Response\Response;
 
 class Router
 {
@@ -44,7 +43,7 @@ class Router
             ?: throw new Exception("404 | NOT FOUND");
     }
 
-    public function handle(Request $request): Response
+    public function handle(Request $request): mixed
     {
         try {
             return $this->dispatch($request)

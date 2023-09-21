@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
-class HomeController
+use Lilo\Core\Controller\BaseController;
+
+class HomeController extends BaseController
 {
 
     public function index()
