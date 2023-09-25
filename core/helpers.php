@@ -28,39 +28,9 @@ function env(string $key, string $default = ''): string
     return getenv($key) ?: $default;
 }
 
-function view(string $view_name, array $vars = []): Response
-{
-    return new Response(
-        (new View($view_name, $vars))->render()
-    );
-}
-
-function component(string $name, mixed $view = []): string
-{
-    extract(['view' => $view]);
-    include_once BASE_PATH . '/resources/components/' . $name . '.php';
-    return '';
-}
-
-function redirect(string $to): void
-{
-    header("Location: $to");
-    exit;
-}
 
 
-function session(string $key = null, mixed $value = null): Session|string|null
-{
-    $session = App::resolve(Session::class);
 
-    if (!$key) {
-        return $session;
-    } else if ($key && !$value) {
-        return $session->get($key) ?? null;
-    } else {
-        return $session->set($key, $value);
-    }
-}
 
 
 
