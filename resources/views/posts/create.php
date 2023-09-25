@@ -1,7 +1,11 @@
 <?php
 /**
  * @var Lilo\Core\View\View $view
+ * @var \Lilo\Core\Http\Session\Session $session
  */
+
+$session = $view->var('session');
+$errors = $session->get_flash('errors') ?: [];
 
 ?>
 <!doctype html>
@@ -34,6 +38,11 @@
                         placeholder="Title"
                         class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                 />
+                <?php if (isset($errors['title'])): ?>
+                    <?php foreach ($errors['title'] as $error): ?>
+                        <p class="text-[red]"><?= $error ?></p>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </div>
             <div class="mb-5">
                 <label
@@ -49,6 +58,11 @@
                         placeholder="Post body"
                         class="w-full resize-none rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                 ></textarea>
+                <?php if (isset($errors['body'])): ?>
+                    <?php foreach ($errors['body'] as $error): ?>
+                        <p class="text-[red]"><?= $error ?></p>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </div>
             <div>
                 <button

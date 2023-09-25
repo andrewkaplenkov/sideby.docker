@@ -2,7 +2,6 @@
 
 namespace Lilo\Core\Http\Router;
 
-use Exception;
 use Lilo\Core\Http\Request\Request;
 
 class Router
@@ -33,23 +32,20 @@ class Router
         }
     }
 
-    private function dispatch(Request $request): Route
+    private function dispatch(Request $request): ?Route
     {
         $req_method = $request->get_method();
         $req_uri = $request->get_path();
-        $route = $this->routes[$req_method][$req_uri] ?? null;
-
-        return $route
-            ?: throw new Exception("404 | NOT FOUND");
+        return $this->routes[$req_method][$req_uri] ?? null;
     }
 
     public function handle(Request $request): mixed
     {
-        try {
-            return $this->dispatch($request)
-                ->execute();
-        } catch (Exception $e) {
-            return view('errors/404');
-        }
+
+        $route = $this->dispatch($request);
+
+        return $route
+            ? $route->execute()
+            : view('errors/404');
     }
 }

@@ -13,12 +13,12 @@
     <div class="p-10 xs:p-0 mx-auto md:w-full md:max-w-md">
         <h1 class="font-bold text-center text-2xl mb-5">Sign Up</h1>
         <div class="bg-white shadow w-full rounded-lg divide-y divide-gray-200">
-            <div class="px-5 py-7">
-                <label class="font-semibold text-sm text-gray-600 pb-1 block">E-mail</label>
-                <input type="text" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"/>
-                <label class="font-semibold text-sm text-gray-600 pb-1 block">Password</label>
-                <input type="text" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"/>
-                <button type="button"
+            <form method="POST" action="/signup" class="px-5 py-7">
+                <label for="email" class="font-semibold text-sm text-gray-600 pb-1 block">E-mail</label>
+                <input type="email" name="email" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"/>
+                <label for="password" class="font-semibold text-sm text-gray-600 pb-1 block">Password</label>
+                <input type="password" name="password" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"/>
+                <button type="submit"
                         class="transition duration-200 bg-blue-500 hover:bg-blue-600 focus:bg-blue-700 focus:shadow-sm focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 text-white w-full py-2.5 rounded-lg text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block">
                     <span class="inline-block mr-2">Sign Up</span>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
@@ -27,7 +27,7 @@
                               d="M17 8l4 4m0 0l-4 4m4-4H3"/>
                     </svg>
                 </button>
-            </div>
+            </form>
             <!--            <div class="p-5">-->
             <!--                <div class="grid grid-cols-3 gap-1">-->
             <!--                    <button type="button"-->

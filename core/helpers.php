@@ -1,6 +1,8 @@
 <?php
 
+use Lilo\Core\App;
 use Lilo\Core\Http\Response\Response;
+use Lilo\Core\Http\Session\Session;
 use Lilo\Core\View\View;
 
 function env(string $key, string $default = ''): string
@@ -39,5 +41,27 @@ function component(string $name, mixed $view = []): string
     include_once BASE_PATH . '/resources/components/' . $name . '.php';
     return '';
 }
+
+function redirect(string $to): void
+{
+    header("Location: $to");
+    exit;
+}
+
+
+function session(string $key = null, mixed $value = null): Session|string|null
+{
+    $session = App::resolve(Session::class);
+
+    if (!$key) {
+        return $session;
+    } else if ($key && !$value) {
+        return $session->get($key) ?? null;
+    } else {
+        return $session->set($key, $value);
+    }
+}
+
+
 
 

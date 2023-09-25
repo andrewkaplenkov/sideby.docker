@@ -2,20 +2,27 @@
 
 namespace Lilo\Core\Controller;
 
+use Lilo\Core\App;
 use Lilo\Core\Database\ORM\Model\ModelInterface;
 use Lilo\Core\Http\Request\Request;
+use Lilo\Core\Http\Request\RequestInterface;
+use Lilo\Core\Http\Session\Session;
 
-class BaseController
+abstract class BaseController implements ControllerInterface
 {
-    protected Request $request;
-    protected static ?string $model_name = null;
-    protected ModelInterface $model;
+    protected RequestInterface|string|null $request = null;
+    protected ModelInterface|string|null $model = null;
+
+    protected Session $session;
+
 
     public function __construct()
     {
-        $this->request = Request::create_from_globals();
-        if (static::$model_name) {
-            $this->model = new static::$model_name();
-        }
+        $this->request = !$this->request
+            ? App::resolve(Request::class)
+            : $this->request::create_from_globals();
+
+        $this->model = new $this->model() ?? null;
+        $this->session = App::resolve(Session::class);
     }
 }

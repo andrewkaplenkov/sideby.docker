@@ -5,6 +5,7 @@ namespace Lilo\Core;
 use App\Providers\AppServiceProvider;
 use Lilo\Core\Container\Container;
 use Lilo\Core\Http\Kernel;
+use Lilo\Core\Http\Session\Session;
 
 class App
 {
@@ -43,6 +44,7 @@ class App
         return [
             'SERVICE_PROVIDER' => static::resolve(AppServiceProvider::class),
             'HTTP_KERNEL' => static::resolve(Kernel::class),
+            'SESSION' => static::resolve(Session::class),
         ];
     }
 
@@ -54,5 +56,13 @@ class App
 
         $http_kernel
             ->handle();
+    }
+
+    public function info(): array
+    {
+        return [
+            static::$app_name,
+            static::$container
+        ];
     }
 }

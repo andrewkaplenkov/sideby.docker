@@ -22,6 +22,6 @@ class View
 
     public function var(string $key): mixed
     {
-        return $this->vars[$key] ?? "{{undefined variable '$key'}}";
+        return $this->vars[$key] ?? null;
     }
 }
