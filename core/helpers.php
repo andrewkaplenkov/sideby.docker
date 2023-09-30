@@ -1,9 +1,5 @@
 <?php
 
-use Lilo\Core\App;
-use Lilo\Core\Http\Response\Response;
-use Lilo\Core\Http\Session\Session;
-use Lilo\Core\View\View;
 
 function env(string $key, string $default = ''): string
 {
