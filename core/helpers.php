@@ -1,6 +1,8 @@
 <?php
 
 
+use Lilo\Core\Http\Redirect\Redirect;
+
 function env(string $key, string $default = ''): string
 {
     $lines = file(BASE_PATH . '/.env');
@@ -22,6 +24,11 @@ function env(string $key, string $default = ''): string
     }
 
     return getenv($key) ?: $default;
+}
+
+function redirect(string $to): void
+{
+    Redirect::to($to);
 }
 
 

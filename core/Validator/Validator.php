@@ -1,6 +1,6 @@
 <?php
 
-namespace Lilo\Core\Http\Validator;
+namespace Lilo\Core\Validator;
 
 class Validator implements ValidtorInterface
 {
@@ -17,7 +17,7 @@ class Validator implements ValidtorInterface
 
                 $res = $this->validate_rules($value, $rule_name, $rule_option);
                 if (is_string($res)) {
-                    $this->errors[$key] = $res;
+                    $this->errors[$key][] = $res;
                 }
             }
         }
@@ -57,6 +57,11 @@ class Validator implements ValidtorInterface
                     return "Value must be a valid email";
                 }
                 break;
+//            case 'password':
+//                if (!filter_var($to_validate, FILTER_VALIDATE)) {
+//                    return "Value must be a valid email";
+//                }
+//                break;
             default:
                 return "No such rule <$rule_name>";
         }

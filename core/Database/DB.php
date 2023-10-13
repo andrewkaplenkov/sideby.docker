@@ -41,10 +41,18 @@ class DB
         ];
     }
 
-    public function raw_query(string $query, array $vars = []): \PDOStatement
+    public function pdo(): \PDO
+    {
+        return $this->pdo;
+    }
+
+    public function raw_query(string $query, array $vars = []): false|\PDOStatement
     {
         $statement = $this->pdo->prepare($query);
-        $statement->execute($vars);
+
+        if (!$statement->execute($vars)) {
+            return false;
+        }
 
         return $statement;
     }

@@ -10,5 +10,11 @@ interface RouteInterface
 
     public function execute(): mixed;
 
+    public function middleware(array $middlewares): RouteInterface;
+
+    public function has_middlewares(): bool;
+
+    public function get_middleware(string $middleware = null): mixed;
+
     public function info(): array;
 }

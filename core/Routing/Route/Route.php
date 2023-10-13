@@ -7,7 +7,8 @@ class Route implements RouteInterface
     public function __construct(
         private readonly string         $method,
         private readonly string         $uri,
-        private readonly array|\Closure $handler
+        private readonly array|\Closure $handler,
+        private array                   $middlewares = []
     )
     {
     }
@@ -35,6 +36,26 @@ class Route implements RouteInterface
         }
 
         return call_user_func($this->handler);
+    }
+
+    public function middleware(array $middlewares): RouteInterface
+    {
+        $this->middlewares = [...$middlewares];
+        return $this;
+    }
+
+    public function has_middlewares(): bool
+    {
+        return !empty($this->middlewares);
+    }
+
+    public function get_middleware(string $middleware = null): mixed
+    {
+        if (!$middleware) {
+            return $this->middlewares;
+        } else {
+            return $this->middlewares[$middleware] ?? null;
+        }
     }
 
     public function info(): array

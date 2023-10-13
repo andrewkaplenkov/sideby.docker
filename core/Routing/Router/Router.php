@@ -4,6 +4,7 @@ namespace Lilo\Core\Routing\Router;
 
 use Lilo\Core\Config\Config;
 use Lilo\Core\Http\Request\RequestInterface;
+use Lilo\Core\Middleware\AbstractMiddleware;
 use Lilo\Core\Routing\Route\Route;
 use Lilo\Core\Routing\Route\RouteInterface;
 
@@ -52,6 +53,15 @@ class Router implements RouterInterface
         if (!$route) {
             echo "404|NOT FOUND";
             exit;
+        }
+
+        if ($route->has_middlewares()) {
+            foreach ($route->get_middleware() as $middleware) {
+                /**
+                 * @var AbstractMiddleware $middleware ;
+                 */
+                (new $middleware($request))->handle();
+            }
         }
 
         return $route->execute();

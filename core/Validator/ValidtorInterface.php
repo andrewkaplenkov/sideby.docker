@@ -1,6 +1,6 @@
 <?php
 
-namespace Lilo\Core\Http\Validator;
+namespace Lilo\Core\Validator;
 
 interface ValidtorInterface
 {

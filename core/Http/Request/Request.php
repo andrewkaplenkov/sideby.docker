@@ -2,8 +2,10 @@
 
 namespace Lilo\Core\Http\Request;
 
-use Lilo\Core\Http\Validator\Validator;
-use Lilo\Core\Http\Validator\ValidtorInterface;
+use Lilo\Core\Upload\UploadedFile;
+use Lilo\Core\Upload\UploadedFileInterface;
+use Lilo\Core\Validator\Validator;
+use Lilo\Core\Validator\ValidtorInterface;
 
 class Request implements RequestInterface
 {
@@ -44,6 +46,15 @@ class Request implements RequestInterface
             : $this->post[$key] ?? null;
     }
 
+    public function file(string $filename = null): ?UploadedFileInterface
+    {
+        if (!isset($this->files[$filename])) {
+            return null;
+        }
+
+        return new UploadedFile(...$this->files[$filename]);
+    }
+
     public function query_params(string $key = null): mixed
     {
         return !$key
@@ -74,4 +85,5 @@ class Request implements RequestInterface
     {
         return $this->validator()->errors();
     }
+
 }

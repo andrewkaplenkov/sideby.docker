@@ -32,8 +32,9 @@ class Session implements SessionInterface
 
     public function get(string $key, mixed $default = null): mixed
     {
-        return $_SESSION[$key]
-            ?: $default ?? null;
+        return $this->has($key)
+            ? $_SESSION[$key]
+            : $default;
     }
 
     public function get_flash(string $key, mixed $default = null): mixed

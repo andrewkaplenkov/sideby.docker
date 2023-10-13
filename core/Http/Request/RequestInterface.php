@@ -2,7 +2,8 @@
 
 namespace Lilo\Core\Http\Request;
 
-use Lilo\Core\Http\Validator\ValidtorInterface;
+use Lilo\Core\Upload\UploadedFileInterface;
+use Lilo\Core\Validator\ValidtorInterface;
 
 interface RequestInterface
 {
@@ -14,6 +15,8 @@ interface RequestInterface
     public function input(string $key = null): mixed;
 
     public function query_params(string $key = null): mixed;
+
+    public function file(string $filename = null): ?UploadedFileInterface;
 
     public function validator(ValidtorInterface $validator = null): ValidtorInterface;
 
